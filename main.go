@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"strings"
 
@@ -15,6 +16,7 @@ import (
 )
 
 func main() {
+	fmt.Println("Empieza programa")
 	lambda.Start(EjecutoLambda)
 }
 
