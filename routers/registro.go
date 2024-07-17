@@ -16,6 +16,7 @@ func Registro(ctx context.Context) models.RespApi {
 	r.Status = 400
 
 	fmt.Println("Entro a registro")
+
 	body := ctx.Value(models.Key("body")).(string)
 	err := json.Unmarshal([]byte(body), &t)
 	if err != nil {
@@ -37,6 +38,7 @@ func Registro(ctx context.Context) models.RespApi {
 	}
 
 	_, encontrado, _ := bd.ChequeYaExisteUsuario(t.Email)
+	fmt.Println("Pude chequear")
 	if encontrado {
 		r.Message = "Ya existe un usuario con ese email"
 		fmt.Println(r.Message)

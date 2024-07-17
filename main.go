@@ -22,9 +22,9 @@ func main() {
 
 func EjecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	var res *events.APIGatewayProxyResponse
-
+	fmt.Println("Ejecuto el lambda")
 	awsgo.InicializoAws()
-
+	fmt.Println("Termino InicializoAws")
 	if !ValidoParametros() {
 		res = &events.APIGatewayProxyResponse{
 			StatusCode: 400,
@@ -50,6 +50,10 @@ func EjecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 
 		return res, nil
 	}
+	fmt.Println("Body>>>" + request.Body)
+	fmt.Println(">>>" + request.HTTPMethod)
+	fmt.Println(">>>" + request.Path)
+	fmt.Println(">>>" + os.Getenv("UrlPrefix"))
 
 	path := strings.Replace(request.PathParameters["twittergo"], os.Getenv("UrlPrefix"), "", -1)
 	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("path"), path)
@@ -61,7 +65,7 @@ func EjecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("jwtSign"), SecretModel.JWTSign)
 	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("body"), request.Body)
 	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("bucketName"), os.Getenv("BucketName"))
-
+	fmt.Println("Termino context y params")
 	//Chequeo conexion a bd
 	err = bd.ConectarBd(awsgo.Ctx)
 	if err != nil {
@@ -75,10 +79,11 @@ func EjecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 
 		return res, nil
 	}
-
+	fmt.Println("Termino conectar bd")
 	//parte final handlers
 	respApi := handlers.Manejadores(awsgo.Ctx, request)
 	if respApi.CustomResp == nil {
+		fmt.Println("aaa ---> " + respApi.Message)
 		res = &events.APIGatewayProxyResponse{
 			StatusCode: respApi.Status,
 			Body:       respApi.Message,
@@ -89,6 +94,7 @@ func EjecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 
 		return res, nil
 	} else {
+		fmt.Println("bbb")
 		return respApi.CustomResp, nil
 	}
 }

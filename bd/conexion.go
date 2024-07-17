@@ -13,6 +13,7 @@ var MongoCn *mongo.Client
 var DatabaseName string
 
 func ConectarBd(ctx context.Context) error {
+	fmt.Println("Empiezo a conectar bd")
 	user := ctx.Value(models.Key("user")).(string)
 	password := ctx.Value(models.Key("password")).(string)
 	host := ctx.Value(models.Key("host")).(string)
@@ -21,20 +22,22 @@ func ConectarBd(ctx context.Context) error {
 	var clientOptions = options.Client().ApplyURI(connString)
 
 	client, err := mongo.Connect(ctx, clientOptions)
+	fmt.Println("Llego hasta aca con la bd???", user, password, host, connString)
 	if err != nil {
-		fmt.Println(err.Error())
+		fmt.Println("Error 1 --->" + err.Error())
 		return err
 	}
 
 	err = client.Ping(ctx, nil)
 	if err != nil {
-		fmt.Println(err.Error())
+		fmt.Println("Error 2 --->" + err.Error())
 		return err
 	}
 
 	fmt.Println("Conexion exitosa")
 	MongoCn = client
 	DatabaseName = ctx.Value(models.Key("database")).(string)
+	fmt.Println("database-->>> " + DatabaseName)
 	return nil
 }
 
