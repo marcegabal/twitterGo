@@ -2,7 +2,6 @@ package bd
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/marcegabal/twitterGo/models"
 	"go.mongodb.org/mongo-driver/bson"
@@ -19,7 +18,7 @@ func InsertoTweet(t models.GraboTweet) (string, bool, error) {
 		"mensaje": t.Mensaje,
 		"fecha":   t.Fecha,
 	}
-	fmt.Println("44444")
+
 	result, err := col.InsertOne(ctx, registro)
 	if err != nil {
 		return "", false, err

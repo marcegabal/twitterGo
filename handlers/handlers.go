@@ -34,7 +34,6 @@ func Manejadores(ctx context.Context, request events.APIGatewayProxyRequest) mod
 			return routers.Login(ctx)
 
 		case "tweet":
-			fmt.Println("11111")
 			return routers.GraboTweet(ctx, claim)
 		}
 
