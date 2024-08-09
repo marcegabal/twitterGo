@@ -33,9 +33,9 @@ func ObtenerImagen(ctx context.Context, uploadType string, request events.APIGat
 	var filename string
 	switch uploadType {
 	case "A":
-		filename = "avatars/" + perfil.Avatar
+		filename = perfil.Avatar
 	case "B":
-		filename = "banners/" + perfil.Avatar
+		filename = perfil.Banner
 	}
 
 	fmt.Println("filename " + filename)
