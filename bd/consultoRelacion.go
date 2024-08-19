@@ -7,7 +7,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func ConsultaRelacion(t models.Relacion) bool {
+func ConsultoRelacion(t models.Relacion) bool {
 	ctx := context.TODO()
 	db := MongoCn.Database(DatabaseName)
 	col := db.Collection("relacion")
