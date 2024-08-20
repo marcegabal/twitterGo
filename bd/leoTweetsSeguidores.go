@@ -2,6 +2,7 @@ package bd
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/marcegabal/twitterGo/models"
 	"go.mongodb.org/mongo-driver/bson"
@@ -31,11 +32,13 @@ func LeoTweetsSeguidores(ID string, pagina int) ([]models.DevuelvoTweetsSeguidor
 	var result []models.DevuelvoTweetsSeguidores
 	cursor, err := col.Aggregate(ctx, condiciones)
 	if err != nil {
+		fmt.Println("error 1 " + err.Error())
 		return result, false
 	}
 
 	err = cursor.All(ctx, &result)
 	if err != nil {
+		fmt.Println("error 2 " + err.Error())
 		return result, false
 	}
 
